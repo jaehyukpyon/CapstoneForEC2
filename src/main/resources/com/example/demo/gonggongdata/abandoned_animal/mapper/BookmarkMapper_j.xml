@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.gonggongdata.abandoned_animal.mapper.BookmarkMapper_j">
+
+    <select id="checkAlreadyBookmarked" parameterType="hashmap" resultType="int">
+        select count(*)
+        from user_bookmark_abandoned_animal_list
+        where user_id=#{userId} and desertionno=#{desertionNo}
+    </select>
+
+    <insert id="addToBookmark" parameterType="hashmap">
+        insert
+        into user_bookmark_abandoned_animal_list(user_id, desertionno)
+        values(#{userId}, #{desertionNo})
+    </insert>
+
+    <delete id="deleteBookmark" parameterType="hashmap">
+        delete
+        from user_bookmark_abandoned_animal_list
+        where user_id=#{userId} and desertionno=#{desertionNo}
+    </delete>
+
+    <select id="getUserBookmarkListBy10" parameterType="hashmap" resultType="java.lang.String">
+        select desertionNo
+        from user_bookmark_abandoned_animal_list
+        where user_id=#{userId}
+        order by bookmark_datetime asc
+        limit 10 offset #{startRowNum}
+    </select>
+
+    <select id="getAnimalList" parameterType="java.util.List" resultType="com.example.demo.gonggongdata.abandoned_animal.dto.AnimalListDto_j">
+        select *
+        from abandoned_animal_list_tbl
+        where desertionNo in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getAnimalListFromExpiredTable" parameterType="java.util.List" resultType="com.example.demo.gonggongdata.abandoned_animal.dto.AnimalListDto_j">
+        select *
+        from expired_abandoned_animal_list_tbl
+        where desertionNo in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getTotalCountBookmark" resultType="int" parameterType="int">
+        select count(*)
+        from user_bookmark_abandoned_animal_list
+        where user_id=#{userId}
+    </select>
+</mapper>

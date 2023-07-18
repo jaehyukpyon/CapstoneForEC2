@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.UserMapper_j">
+
+    <select id="findByEmail" resultType="com.example.demo.domain.User_j">
+        select *
+        from user
+        where email = #{email}
+    </select>
+
+    <select id="checkEmailDuplication" resultType="Integer">
+        select count(*)
+        from user
+        where email = #{email}
+    </select>
+
+    <select id="checkNicknameDuplication" resultType="Integer">
+        select count(*)
+        from user
+        where nickname = #{nickname}
+    </select>
+
+    <insert id="registerUser" parameterType="com.example.demo.dto.UserRegisterDto_j">
+        insert
+        into user(email, nickname, password)
+        values(#{email}, #{nickname}, #{password})
+    </insert>
+</mapper>

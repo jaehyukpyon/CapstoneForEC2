@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.openapi.OpenMapper">
+
+    <!-- opendata 테이블 전체 컬럼 -->
+    <sql id="openDataColumns">
+        loadId
+        , isOpen
+        , phoneNum
+        , address
+        , postNum
+        , name
+        , x
+        , y
+    </sql>
+
+
+    <!-- tb_comment 테이블 전체 컬럼 -->
+    <sql id="hospitalColumns">
+        id
+        , hid
+        , uid
+        , rating
+        , comment
+    </sql>
+
+
+    <!-- tb_comment 테이블 전체 컬럼 -->
+    <sql id="pharmacyColumns">
+        id
+        , pid
+        , uid
+        , rating
+        , comment
+    </sql>
+
+
+    <!-- 공공데이터 저장 -->
+    <insert id="saveHospitalOpenData" parameterType="com.example.demo.openapi.LoadVO" useGeneratedKeys="true" keyProperty="loadId">
+        INSERT INTO hospital (
+        <include refid="openDataColumns" />
+        ) VALUES (
+        #{loadId}
+        , #{isOpen}
+        , #{phoneNum}
+        , #{address}
+        , #{postNum}
+        , #{name}
+        , #{x}
+        , #{y}
+        )
+    </insert>
+
+    <insert id="savePharmacyOpenData" parameterType="com.example.demo.openapi.LoadVO" useGeneratedKeys="true" keyProperty="loadId">
+        INSERT INTO pharmacy (
+        <include refid="openDataColumns" />
+        ) VALUES (
+        #{loadId}
+        , #{isOpen}
+        , #{phoneNum}
+        , #{address}
+        , #{postNum}
+        , #{name}
+        , #{x}
+        , #{y}
+        )
+    </insert>
+
+    <delete id="deleteHospitalOpenData">
+        TRUNCATE TABLE hospital
+    </delete>
+
+    <delete id="deletePharmacyOpenData">
+        TRUNCATE TABLE pharmacy
+    </delete>
+
+    <!-- 댓글 저장 -->
+    <insert id="saveHospital" parameterType="com.example.demo.openapi.HospitalVO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO hospital_rating (
+        <include refid="hospitalColumns" />
+        ) VALUES (
+        #{id}
+        , #{hid}
+        , #{uid}
+        , #{rating}
+        , #{comment}
+        )
+    </insert>
+
+
+    <!-- 댓글 저장 -->
+    <insert id="savePharmacy" parameterType="com.example.demo.openapi.PharmacyVO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pharmacy_rating (
+        <include refid="pharmacyColumns" />
+        ) VALUES (
+        #{id}
+        , #{pid}
+        , #{uid}
+        , #{rating}
+        , #{comment}
+        )
+    </insert>
+
+
+    <!-- 댓글 상세정보 조회 -->
+    <select id="findByIdHospital" parameterType="int" resultType="com.example.demo.openapi.HospitalVO">
+        SELECT
+        <include refid="hospitalColumns" />
+        FROM
+        hospital_rating
+        WHERE
+        id = #{value}
+    </select>
+
+
+    <!-- 댓글 상세정보 조회 -->
+    <select id="findByIdPharmacy" parameterType="int" resultType="com.example.demo.openapi.PharmacyVO">
+        SELECT
+        <include refid="pharmacyColumns" />
+        FROM
+        pharmacy_rating
+        WHERE
+        id = #{value}
+    </select>
+
+
+    <!-- 댓글 상세정보 조회 -->
+    <select id="findByHid" parameterType="String" resultType="com.example.demo.openapi.HospitalVO">
+        SELECT
+        <include refid="hospitalColumns" />
+        FROM
+        hospital_rating
+        WHERE
+        hid = #{value}
+    </select>
+
+
+    <!-- 댓글 상세정보 조회 -->
+    <select id="findByPid" parameterType="String" resultType="com.example.demo.openapi.PharmacyVO">
+        SELECT
+        <include refid="pharmacyColumns" />
+        FROM
+        pharmacy_rating
+        WHERE
+        pid = #{value}
+    </select>
+
+
+    <!-- 영업중인 동물병원 조회 -->
+    <select id="findOpenHospital" parameterType="int" resultType="com.example.demo.openapi.LoadVO">
+        SELECT
+        <include refid="openDataColumns" />
+        FROM
+        hospital
+        WHERE
+        isOpen = "01"
+    </select>
+
+    <select id="findOpenPharmacy" parameterType="int" resultType="com.example.demo.openapi.LoadVO">
+        SELECT
+        <include refid="openDataColumns" />
+        FROM
+        pharmacy
+        WHERE
+        isOpen = "01"
+    </select>
+
+</mapper>

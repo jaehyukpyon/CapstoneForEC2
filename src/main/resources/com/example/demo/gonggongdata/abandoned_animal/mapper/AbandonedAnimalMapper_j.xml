@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.gonggongdata.abandoned_animal.mapper.AbandonedAnimalMapper_j">
+
+    <insert id="insertAnimalList" parameterType="java.util.List">
+        insert ignore
+        into
+        abandoned_animal_list_tbl(desertionNo, filename, happenDt, happenPlace, kindCd, colorCd, age, weight, noticeNo,
+        noticeSdt, noticeEdt, popfile, processState, sexCd, neuterYn, specialMark, careNm, careTel, careAddr, orgNm, chargeNm, officetel)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.desertionNo}, #{item.filename}, #{item.happenDt}, #{item.happenPlace}, #{item.kindCd}, #{item.colorCd}, #{item.age}, #{item.weight}, #{item.noticeNo},
+            #{item.noticeSdt}, #{item.noticeEdt}, #{item.popfile}, #{item.processState}, #{item.sexCd}, #{item.neuterYn}, #{item.specialMark}, #{item.careNm}, #{item.careTel},
+            #{item.careAddr}, #{item.orgNm}, #{item.chargeNm}, #{item.officetel})
+        </foreach>
+        on duplicate key update
+        desertionNo=VALUES(desertionNo), filename=VALUES(filename), happenDt=VALUES(happenDt), happenPlace=VALUES(happenPlace), kindCd=VALUES(kindCd),
+        colorCd=VALUES(colorCd), age=VALUES(age), weight=VALUES(weight), noticeNo=VALUES(noticeNo), noticeSdt=VALUES(noticeSdt), noticeEdt=VALUES(noticeEdt),
+        popfile=VALUES(popfile), processState=VALUES(processState), sexCd=VALUES(sexCd), neuterYn=VALUES(neuterYn), specialMark=VALUES(specialMark), careNm=VALUES(careNm),
+        careTel=VALUES(careTel), careAddr=VALUES(careAddr), orgNm=VALUES(orgNm), chargeNm=VALUES(chargeNm), officetel=VALUES(officetel)
+    </insert>
+
+    <delete id="deleteAllAnimalFromTable">
+        delete
+        from abandoned_animal_list_tbl
+    </delete>
+
+    <select id="getExpiredAnimalList" parameterType="String" resultType="com.example.demo.gonggongdata.abandoned_animal.response.Item_j">
+        select *
+        from abandoned_animal_list_tbl
+        where
+        <![CDATA[
+        noticeEdt < #{expiredDate}
+        ]]>
+    </select>
+
+    <insert id="insertExpiredAnimalList" parameterType="java.util.List">
+        insert ignore
+        into
+        expired_abandoned_animal_list_tbl(desertionNo, filename, happenDt, happenPlace, kindCd, colorCd, age, weight, noticeNo,
+        noticeSdt, noticeEdt, popfile, processState, sexCd, neuterYn, specialMark, careNm, careTel, careAddr, orgNm, chargeNm, officetel)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.desertionNo}, #{item.filename}, #{item.happenDt}, #{item.happenPlace}, #{item.kindCd}, #{item.colorCd}, #{item.age}, #{item.weight}, #{item.noticeNo},
+            #{item.noticeSdt}, #{item.noticeEdt}, #{item.popfile}, #{item.processState}, #{item.sexCd}, #{item.neuterYn}, #{item.specialMark}, #{item.careNm}, #{item.careTel},
+            #{item.careAddr}, #{item.orgNm}, #{item.chargeNm}, #{item.officetel})
+        </foreach>
+    </insert>
+
+    <delete id="deleteExpiredAnimalFromAbandonedAnimalListTbl" parameterType="String">
+        delete
+        from abandoned_animal_list_tbl
+        where
+        <![CDATA[
+        noticeEdt < #{expiredDate}
+        ]]>
+    </delete>
+
+    <insert id="test" parameterType="java.util.List">
+        insert
+        into
+        test_tbl1(id, name, age, email)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id}, #{item.name}, #{item.age}, #{item.email})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        name=VALUES(name), age=VALUES(age), email=VALUES(email)
+    </insert>
+
+    <select id="getAllAnimalWithPagination" parameterType="int" resultType="com.example.demo.gonggongdata.abandoned_animal.dto.AnimalListDto_j">
+        SELECT *
+        from abandoned_animal_list_tbl
+        order BY noticeSdt asc, desertionNo asc
+        LIMIT 10 OFFSET #{startRowNum}
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        select count(desertionNo)
+        from abandoned_animal_list_tbl
+    </select>
+
+
+
+    <!-- sido, sigungu로 필터링 해서 조회하는 api -->
+    <select id="getCountFilteredBySidoSigungu" parameterType="hashmap" resultType="int">
+        select count(desertionNo)
+        from abandoned_animal_list_tbl
+        where orgNm like concat('%', #{sido}, '%') and orgNm like concat('%', #{sigungu}, '%')
+    </select>
+
+    <select id="getAnimalFilteredBySidoSigungu" parameterType="hashmap" resultType="com.example.demo.gonggongdata.abandoned_animal.dto.AnimalListDto_j">
+        select *
+        from abandoned_animal_list_tbl
+        where orgNm like concat('%', #{sido}, '%') and orgNm like concat('%', #{sigungu}, '%')
+        order by noticeSdt asc, desertionNo asc
+        limit 10 offset #{startRowNum}
+    </select>
+</mapper>

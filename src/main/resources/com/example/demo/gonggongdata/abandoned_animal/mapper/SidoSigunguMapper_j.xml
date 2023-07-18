@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.gonggongdata.abandoned_animal.mapper.SidoSigunguMapper_j">
+
+    <select id="getSidoList" resultType="com.example.demo.gonggongdata.abandoned_animal.dto.SidoDto_j">
+        select *
+        from sido_inquiry_tbl
+    </select>
+
+    <select id="getSidoCode" resultType="string">
+        select orgcd
+        from sido_inquiry_tbl
+        where orgdownnm = #{sidoName}
+    </select>
+
+    <select id="getSigunguList" resultType="com.example.demo.gonggongdata.abandoned_animal.dto.SigunguDto_j">
+        select *
+        from sigungu_inquiry_tbl
+        where uprcd = #{sidoCode}
+    </select>
+</mapper>

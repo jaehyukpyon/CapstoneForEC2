@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.gonggongdata.abandoned_animal.mapper.AnimalKindMapper_j">
+
+    <select id="getAllAnimalDogKinds" resultType="com.example.demo.gonggongdata.abandoned_animal.dto.AnimalKindDto_j">
+        select *
+        from dog_kind_inquiry_tbl
+    </select>
+
+    <select id="getAllAnimalCatKinds" resultType="com.example.demo.gonggongdata.abandoned_animal.dto.AnimalKindDto_j">
+        select *
+        from cat_kind_inquiry_tbl
+    </select>
+
+</mapper>

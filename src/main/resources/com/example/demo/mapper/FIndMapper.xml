@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.FindMapper">
+
+    <insert id="saveFind" parameterType="com.example.demo.domain.Find">
+        insert
+        into find(findId, userId, title, content, image, place, time, money, registerAt, updatedAt)
+        values(#{findId}, #{userId}, #{title}, #{content}, #{image}, #{place}, #{time}, #{money}, #{registerAt}, #{updatedAt})
+    </insert>
+
+    <update id="updateFind">
+        update find
+        set
+        title=#{findDto.title},
+        content=#{findDto.content},
+        image=#{findDto.image},
+        updatedAt=#{findDto.updatedAt},
+        userId=#{findDto.userId},
+        time=#{findDto.time},
+        place=#{findDto.place},
+        money=#{findDto.money}
+
+        where findId=#{findId}
+    </update>
+
+    <delete id="deleteFind">
+        delete from find where findId=#{findId}
+    </delete>
+
+</mapper>

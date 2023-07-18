@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.DailyPostMapper">
+
+
+    <insert id="saveDailyPost" useGeneratedKeys="true" keyProperty="dailyPostId">
+        insert into DailyPost (user_id, title, content,image,register_at)
+        values (#{userId}, #{title}, #{content},#{image},#{registerAt})
+    </insert>
+
+    <update id="updateDailyPost">
+        update dailyPost
+        set user_id=#{dailyPostDto.userId},
+            title=#{dailyPostDto.title},
+            content=#{dailyPostDto.content},
+            image=#{dailyPostDto.image},
+            updated_at=#{dailyPostDto.updatedAt}
+        where daily_post_id = #{dailyPostId}
+    </update>
+
+
+    <select id="findThumbnail" resultType="DailyPost">
+        select daily_post_id,user_id,title,image,register_at,updated_at
+        from DailyPost
+    </select>
+
+    <delete id="deleteDailyPost">
+        delete from DailyPost where daily_post_id=#{dailyPostId}
+    </delete>
+
+
+</mapper>
