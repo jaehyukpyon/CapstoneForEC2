@@ -100,4 +100,13 @@
         order by noticeSdt asc, desertionNo asc
         limit 10 offset #{startRowNum}
     </select>
+
+
+    <!-- 다 갖고오기 -->
+    <select id="getAllListFilteredBySidoSigungu" parameterType="hashmap" resultType="com.example.demo.gonggongdata.abandoned_animal.dto.AnimalListDto_j">
+        select *
+        from abandoned_animal_list_tbl
+        where orgNm like concat('%', #{sido}, '%') and orgNm like concat('%', #{sigungu}, '%')
+        order by noticeSdt asc, desertionNo asc
+    </select>
 </mapper>

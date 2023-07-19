@@ -1,5 +1,6 @@
 package com.example.demo.gonggongdata.abandoned_animal.controller;
 
+import com.example.demo.gonggongdata.abandoned_animal.dto.AllAnimalFilteredBySidoSigunguListResponseDto_j;
 import com.example.demo.gonggongdata.abandoned_animal.dto.AnimalListDto_j;
 import com.example.demo.gonggongdata.abandoned_animal.response.AnimalSearchListResponse_j;
 import com.example.demo.gonggongdata.abandoned_animal.service.AbandonedAnimalService_j;
@@ -44,7 +45,7 @@ public class AbandonedAnimalController_j {
         return ResponseEntity.ok(animalSearchListResponse);
     }
 
-    @GetMapping("/sido-sigungu")
+    /*@GetMapping("/sido-sigungu")
     public ResponseEntity<?> getAnimalListFilteredBySidoSigungu(
             @RequestParam(required = false, defaultValue = "") String sido,
             @RequestParam(required = false, defaultValue = "") String sigungu,
@@ -88,5 +89,40 @@ public class AbandonedAnimalController_j {
         animalSearchListResponse_j.setList(animalFilteredBySidoSigungu);
 
         return ResponseEntity.ok(animalSearchListResponse_j);
+    }*/
+
+    @GetMapping("/sido-sigungu")
+    public ResponseEntity<?> getAnimalListFilteredBySidoSigungu(
+            @RequestParam(required = false, defaultValue = "") String sido,
+            @RequestParam(required = false, defaultValue = "") String sigungu) {
+
+
+        if (sido.equals("") || sigungu.equals("")) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("message", "sido 문자열 및 sigungu 문자열은 필수 값입니다.");
+            errors.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+            return ResponseEntity.badRequest().body(errors); // 400
+        }
+
+        Map<String, Object> map = new HashMap<>();
+
+        if (sido.contains("제주") || sigungu.contains("제주")) {
+            map.put("sido", "제주");
+            map.put("sigungu", "제주");
+        } else {
+            map.put("sido", sido);
+            map.put("sigungu", sigungu);
+        }
+
+        //List<AnimalListDto_j> animalFilteredBySidoSigungu = abandonedAnimalService.getAnimalFilteredBySidoSigungu(map);
+
+        List<AnimalListDto_j> animalAllListFilteredBySidoSigungu =
+                abandonedAnimalService.getAllListFilteredBySidoSigungu(map);
+
+        AllAnimalFilteredBySidoSigunguListResponseDto_j response = new AllAnimalFilteredBySidoSigunguListResponseDto_j();
+        response.setList(animalAllListFilteredBySidoSigungu);
+        response.setTotalCount(animalAllListFilteredBySidoSigungu.size());
+        return ResponseEntity.ok(response);
     }
 }

@@ -30,4 +30,6 @@ public interface AbandonedAnimalMapper_j {
     int getCountFilteredBySidoSigungu(Map<String, Object> map);
 
     List<AnimalListDto_j> getAnimalFilteredBySidoSigungu(Map<String, Object> map);
+
+    List<AnimalListDto_j> getAllListFilteredBySidoSigungu(Map<String, Object> map);
 }

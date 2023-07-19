@@ -215,4 +215,8 @@ public class AbandonedAnimalService_j {
     public List<AnimalListDto_j> getAnimalFilteredBySidoSigungu(Map<String, Object> map) {
         return abandonedAnimalMapper.getAnimalFilteredBySidoSigungu(map);
     }
+
+    public List<AnimalListDto_j> getAllListFilteredBySidoSigungu(Map<String, Object> map) {
+        return abandonedAnimalMapper.getAllListFilteredBySidoSigungu(map);
+    }
 }
