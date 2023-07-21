@@ -14,4 +14,6 @@ public class LoadVO {
     private String name;
     private String x;
     private String y;
+    private String latitude;
+    private String longitude;
 }

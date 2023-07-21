@@ -13,6 +13,8 @@
         , name
         , x
         , y
+        , latitude
+        ,longitude
     </sql>
 
 
@@ -49,6 +51,8 @@
         , #{name}
         , #{x}
         , #{y}
+        , #{latitude}
+        , #{longitude}
         )
     </insert>
 
@@ -64,6 +68,8 @@
         , #{name}
         , #{x}
         , #{y}
+        , #{latitude}
+        , #{longitude}
         )
     </insert>
 

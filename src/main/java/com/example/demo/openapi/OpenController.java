@@ -11,16 +11,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class OpenController {
 
     private final OpenService openService;
+    private final ConvertService convertService;
 
     @Autowired
-    public OpenController(OpenService openService) {
+    public OpenController(OpenService openService, ConvertService convertService) {
         this.openService = openService;
+        this.convertService = convertService;
     }
 
     @ResponseBody
@@ -76,7 +80,16 @@ public class OpenController {
                     x = x.substring(1, x.length() - 1).replaceAll(" ", "");
                     String y = object.get("Y").toString();
                     y = y.substring(1, y.length() - 1).replaceAll(" ", "");
-                    LoadVO loadVO = new LoadVO(loadId, isOpen, phoneNum, address, postNum, name, x, y);
+
+                    Map<String, String> convert = new HashMap<>();
+                    if (x != null && x.length() > 0) {
+                        convert = convertService.convert(x, y);
+                    } else {
+                        convert.put("latitude", "");
+                        convert.put("longitude", "");
+                    }
+
+                    LoadVO loadVO = new LoadVO(loadId, isOpen, phoneNum, address, postNum, name, x, y, convert.get("latitude"), convert.get("longitude"));
                     openService.saveHospitalOpenData(loadVO);
                 }
             } catch (Exception e) {
@@ -165,7 +178,16 @@ public class OpenController {
                     x = x.substring(1, x.length() - 1).replaceAll(" ", "");
                     String y = object.get("Y").toString();
                     y = y.substring(1, y.length() - 1).replaceAll(" ", "");
-                    LoadVO loadVO = new LoadVO(loadId, isOpen, phoneNum, address, postNum, name, x, y);
+
+                    Map<String, String> convert = new HashMap<>();
+                    if (x != null && x.length() > 0) {
+                        convert = convertService.convert(x, y);
+                    } else {
+                        convert.put("latitude", "");
+                        convert.put("longitude", "");
+                    }
+
+                    LoadVO loadVO = new LoadVO(loadId, isOpen, phoneNum, address, postNum, name, x, y, convert.get("latitude"), convert.get("longitude"));
                     openService.savePharmacyOpenData(loadVO);
                 }
             } catch (Exception e) {
