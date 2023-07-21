@@ -21,6 +21,6 @@ public class MyJob_j implements Job {
             e.printStackTrace();
         }
         log.info("********** Executing my job... **********");
-        //this.abandonedAnimalService.doJob();
+        this.abandonedAnimalService.doJob();
     }
 }
