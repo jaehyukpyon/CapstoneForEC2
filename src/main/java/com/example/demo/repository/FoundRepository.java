@@ -3,8 +3,11 @@ package com.example.demo.repository;
 import com.example.demo.domain.Found;
 import com.example.demo.dto.FoundDto;
 import com.example.demo.mapper.FoundMapper;
+import com.example.demo.vo.FoundVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,4 +32,13 @@ public class FoundRepository {
 
     }
 
+    public FoundDto getFoundDto(int foundId) {
+        FoundDto foundDto = foundMapper.getFoundDto(foundId);
+        return foundDto;
+    }
+
+    public List<FoundVO> getList() {
+        List<FoundVO> list = foundMapper.getList();
+        return list;
+    }
 }

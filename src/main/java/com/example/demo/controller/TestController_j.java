@@ -23,7 +23,11 @@ public class TestController_j {
          * nickname을 갖고 오고 싶다 -> authUser.getNickname()을 사용
          * */
         AuthUserVo_j authUser = (AuthUserVo_j) authentication.getPrincipal();
+        System.out.println("---------------");
+        System.out.println(authUser.getId());
         System.out.println(authUser.getNickname());
+        System.out.println(authUser.getEmail());
+        System.out.println("---------------");
         Integer id = authUser.getId();
         return "testAuthenticationAndPrincipal";
     }

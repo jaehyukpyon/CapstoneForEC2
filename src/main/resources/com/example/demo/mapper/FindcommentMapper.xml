@@ -7,12 +7,18 @@
 <mapper namespace="com.example.demo.mapper.FindCommentMapper">
 
 
-<insert id="saveComment" useGeneratedKeys="true" keyProperty="commentId">
-        insert into FindComment (content, userId,findId,registerAt)
-        values ( #{comment.content},#{comment.userId},#{findId},#{comment.registerAt})
+    <insert id="saveComment" parameterType="com.example.demo.domain.FindComment" useGeneratedKeys="true"
+            keyProperty="commentId">
+        insert
+        into findcomment(commentId, content, userId, findId, registerAt)
+        values(#{comment.commentId}, #{comment.content},#{comment.userId}, #{comment.findId}, #{comment.registerAt})
     </insert>
 
-
+    <select id="getList" resultType="com.example.demo.domain.FindComment">
+        select commentId, content, userId, findId, registerAt, nickname
+        from findcomment inner join user on findcomment.userId = user.id
+        where findId = #{findId}
+    </select>
 
 
 </mapper>

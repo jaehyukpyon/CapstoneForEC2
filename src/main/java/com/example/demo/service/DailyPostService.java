@@ -1,12 +1,16 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.ThumbnailDailyPostDto;
-import com.example.demo.dto.UpdateDailyPostDto;
+import com.example.demo.dto.*;
 import com.example.demo.repository.DailyPostRepository;
 import com.example.demo.vo.DailyPost;
+import com.example.demo.vo.Follow;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -21,8 +25,12 @@ public class DailyPostService {
 
     public DailyPost saveDailyPost(DailyPost dailyPost){
         Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+        //LocalDateTime now = LocalDateTime.now();
+
         dailyPost.setRegisterAt(now);
+
         dailyPostRepository.saveDailyPost(dailyPost);
+
         return dailyPost;
     }
 
@@ -31,18 +39,36 @@ public class DailyPostService {
         //updated createdAt 삽입
         updateDailyPostDto.setUpdatedAt(now);
         //daily PostId 삽입
-        updateDailyPostDto.setDailyPostId(dailyPostId);
+        updateDailyPostDto.setId(dailyPostId);
+
 
         dailyPostRepository.updateDailyPost(dailyPostId,updateDailyPostDto);
         return updateDailyPostDto;
     }
 
-    public List<ThumbnailDailyPostDto> findThumbnail(ThumbnailDailyPostDto thumbnailDailyPostDto){
-        List<ThumbnailDailyPostDto> thumbnail = dailyPostRepository.findThumbnail(thumbnailDailyPostDto);
+    public List<ThumbnailDailyPostDto> findThumbnail(){
+        List<ThumbnailDailyPostDto> thumbnail = dailyPostRepository.findThumbnail();
+
         return thumbnail;
     }
 
-    public void deleteDailyPost(int dailyPostId){
-        dailyPostRepository.deleteDailyPost(dailyPostId);
+    public DetailDailyPostDto findById(int dailyPostId){
+        DetailDailyPostDto detail = dailyPostRepository.findById(dailyPostId);
+        return detail;
     }
+
+
+
+    public int deleteDailyPost(int dailyPostId){
+
+        int t = dailyPostRepository.deleteDailyPost(dailyPostId);
+        return t;
+    }
+
+
+
+
+
+
+
 }

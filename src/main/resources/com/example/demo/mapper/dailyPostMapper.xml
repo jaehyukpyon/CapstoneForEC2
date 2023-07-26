@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.DailyPostMapper">
+
+
+    <insert id="saveDailyPost" useGeneratedKeys="true" keyProperty="dailyPost.id">
+        insert
+        into
+        DailyPost (user_id, title, content, register_at, updated_at)
+        values (#{dailyPost.userId}, #{dailyPost.title}, #{dailyPost.content}, #{dailyPost.registerAt}, #{dailyPost.updatedAt})
+    </insert>
+
+    <update id="updateDailyPost">
+        update DailyPost
+        set
+            title=#{dailyPostDto.title},
+            content=#{dailyPostDto.content},
+            updated_at=#{dailyPostDto.updatedAt}
+        where id = #{id}
+    </update>
+
+
+    <select id="findThumbnail" resultType="ThumbnailDailyPostDto">
+        select dp.id as daily_post_id, user_id, nickname as nick_name, title, content, register_at, updated_at, likecount, commentcount
+        from dailypost dp
+        left outer join (select count(id) as likecount, daily_post_id
+        from likedaily
+        group by daily_post_id) dp2
+        on dp.id = dp2.daily_post_id
+        left outer join (select count(id) as commentcount, daily_post_id
+        from comment
+        group by daily_post_id) dp3
+        on dp.id = dp3.daily_post_id
+        inner join user
+        on dp.user_id = user.id
+    </select>
+
+
+    <select id="findById" resultType="DetailDailyPostDto">
+        select dp.id as daily_post_id, user_id, nickname as nick_name, title, content, register_at, updated_at, likecount, commentcount
+        from dailypost dp
+        left outer join (select count(id) as likecount, daily_post_id
+        from likedaily
+        group by daily_post_id) dp2
+        on dp.id = dp2.daily_post_id
+        left outer join (select count(id) as commentcount, daily_post_id
+        from comment
+        group by daily_post_id) dp3
+        on dp.id = dp3.daily_post_id
+        inner join user
+        on dp.user_id = user.id
+        where dp.id = #{id};
+    </select>
+
+    <delete id="deleteDailyPost">
+        delete from DailyPost where id=#{id}
+    </delete>
+
+
+
+
+
+</mapper>

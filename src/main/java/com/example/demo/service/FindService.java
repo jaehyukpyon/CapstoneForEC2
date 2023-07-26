@@ -5,6 +5,7 @@ import com.example.demo.dto.FindDto;
 import com.example.demo.repository.FindRepository;
 import com.example.demo.domain.Find;
 import com.example.demo.vo.AuthUserVo_j;
+import com.example.demo.vo.FindVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,11 +34,12 @@ public class FindService {
 
     public FindDto updateFind(int findId, FindDto findDto){
 
-        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
-        findDto.setUpdatedAt(now);
+        //Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+        //findDto.setUpdatedAt(now);
         findDto.setFindId(findId);
         AuthUserVo_j auth = (AuthUserVo_j) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int id = auth.getId();
+        findDto.setUserId(id);
         findRepository.updateFind(findId, findDto);
         return findDto;
     }
@@ -46,4 +48,12 @@ public class FindService {
         findRepository.deleteFind(findId);
     }
 
+    public FindDto getFindDto(int findId) {
+        FindDto findDto = findRepository.getFindDto(findId);
+        return findDto;
+    }
+    public List<FindVO> getList(){
+        List<FindVO> list = findRepository.getList();
+        return list;
+    }
 }

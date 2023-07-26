@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.LikeDailyMapper">
+
+    <insert id="increaseLikeNum" useGeneratedKeys="true" keyProperty="id">
+        insert into LikeDaily (daily_post_id, like_user_id)
+        values (#{likeDailyPost.dailyPostId},#{likeDailyPost.likeUserId})
+    </insert>
+
+    <delete id="deleteLikeNum">
+        delete
+        from LikeDaily
+        where daily_post_id = #{dailyPostId} and like_user_id = #{userId} and
+        (select count(*)
+        from LikeDaily
+        where daily_post_id = #{dailyPostId} and like_user_id = #{userId}) > 0;
+    </delete>
+
+    <select id="findLikeNum" resultType="int">
+        select count(id) from LikeDaily;
+    </select>
+
+</mapper>

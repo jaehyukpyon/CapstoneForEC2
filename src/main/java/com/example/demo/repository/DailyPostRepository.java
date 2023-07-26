@@ -1,9 +1,12 @@
 package com.example.demo.repository;
 
-import com.example.demo.dto.ThumbnailDailyPostDto;
-import com.example.demo.dto.UpdateDailyPostDto;
+import com.example.demo.dto.*;
+import com.example.demo.mapper.DailyPostMapper;
+import com.example.demo.mapper.LikeDailyMapper;
 import com.example.demo.vo.DailyPost;
+import com.example.demo.vo.Follow;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,8 +16,12 @@ import java.util.List;
 public class DailyPostRepository {
 
     private final DailyPostMapper dailyPostMapper;
+    private final LikeDailyMapper likeDailyMapper;
 
-    public DailyPost saveDailyPost(DailyPost  dailyPost){
+    public DailyPost saveDailyPost(DailyPost dailyPost){
+
+        //int likeNum = likeDailyMapper.findLikeNum();
+        //dailyPost.setLikeNum(likeNum);
         dailyPostMapper.saveDailyPost(dailyPost);
         return dailyPost;
     }
@@ -25,14 +32,25 @@ public class DailyPostRepository {
         return dailyPostDto;
     }
 
-    public List<ThumbnailDailyPostDto> findThumbnail(ThumbnailDailyPostDto thumbnailDailyPostDto){
-        List<ThumbnailDailyPostDto> thumbnail = dailyPostMapper.findThumbnail(thumbnailDailyPostDto);
+    public List<ThumbnailDailyPostDto> findThumbnail(){
+        List<ThumbnailDailyPostDto> thumbnail = dailyPostMapper.findThumbnail();
+
 
         return thumbnail;
     }
 
-    public void deleteDailyPost(int dailyPostId){
-        dailyPostMapper.deleteDailyPost(dailyPostId);
-
+    public DetailDailyPostDto findById(int dailyPostId){
+        DetailDailyPostDto detail = dailyPostMapper.findById(dailyPostId);
+        return detail;
     }
+
+    public int deleteDailyPost(int dailyPostId){
+        int t = dailyPostMapper.deleteDailyPost(dailyPostId);
+        return t;
+    }
+
+
+
+
+
 }

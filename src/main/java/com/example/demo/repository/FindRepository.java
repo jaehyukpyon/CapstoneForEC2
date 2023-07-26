@@ -3,6 +3,7 @@ package com.example.demo.repository;
 import com.example.demo.dto.FindDto;
 import com.example.demo.mapper.FindMapper;
 import com.example.demo.domain.Find;
+import com.example.demo.vo.FindVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -31,4 +32,13 @@ public class FindRepository{
 
     }
 
+    public FindDto getFindDto(int findId) {
+        FindDto findDto = findMapper.getFindDto(findId);
+        return findDto;
+    }
+
+    public List<FindVO> getList(){
+        List<FindVO> list = findMapper.getList();
+        return list;
+    }
 }

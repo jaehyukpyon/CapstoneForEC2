@@ -6,10 +6,10 @@
 
 <mapper namespace="com.example.demo.mapper.FoundMapper">
 
-    <insert id="saveFound" parameterType="com.example.demo.domain.Found">
+    <insert id="saveFound" parameterType="com.example.demo.domain.Found" useGeneratedKeys="true" keyProperty="foundId">
         insert
-        into found(foundId, userId, title, content, image, time, registerAt, updatedAt)
-        values(#{foundId}, #{userId}, #{title}, #{content}, #{image}, #{time}, #{registerAt}, #{updatedAt})
+        into found(foundId, userId, title, content, place, image, time, registerAt)
+        values(#{foundId}, #{userId}, #{title}, #{content}, #{place}, #{image}, #{time}, #{registerAt})
     </insert>
 
     <update id="updateFound">
@@ -18,11 +18,21 @@
         title=#{foundDto.title},
         content=#{foundDto.content},
         image=#{foundDto.image},
-        updatedAt=#{foundDto.updatedAt},
-        userId=#{foundDto.userId},
-        time=#{foundDto.time}
+        time=#{foundDto.time},
+        place=#{foundDto.place}
         where foundId=#{foundId}
     </update>
+
+    <select id="getFoundDto" resultType="FoundDto">
+        select *
+        from found
+        where foundId=#{foundId}
+    </select>
+
+    <select id="getList" resultType="com.example.demo.vo.FoundVO">
+        select *
+        from found inner join user on found.userId = user.id
+    </select>
 
     <delete id="deleteFound">
         delete from found where foundId=#{foundId}

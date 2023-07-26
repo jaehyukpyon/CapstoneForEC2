@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.CommentMapper">
+
+    <insert id="saveComment" useGeneratedKeys="true" keyProperty="id">
+        insert into Comment (user_id, daily_post_id, content,register_at,updated_at)
+        values (#{userId},#{dailyPostId},#{content},#{registerAt},#{updatedAt})
+    </insert>
+
+
+    <update id="updateComment">
+        update Comment
+        set
+            Comment.daily_post_id=#{comment.dailyPostId},
+            Comment.content=#{comment.content},
+            Comment.register_at=#{comment.registerAt},
+            Comment.updated_at=#{comment.updatedAt}
+        where daily_post_id = #{dailyPostId} and id=#{comment.id}
+    </update>
+
+
+    <select id="findComment" resultType="Comment">
+        select comment.id, user_id, daily_post_id, content, register_at, updated_at, nickname
+        from comment inner join user on comment.user_id = user.id
+        where daily_post_id = #{dailyPostId};
+    </select>
+
+    <delete id="deleteComment">
+        delete from Comment where id=#{id}
+    </delete>
+
+
+
+</mapper>

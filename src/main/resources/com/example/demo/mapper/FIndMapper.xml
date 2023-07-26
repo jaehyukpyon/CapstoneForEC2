@@ -6,29 +6,44 @@
 
 <mapper namespace="com.example.demo.mapper.FindMapper">
 
-    <insert id="saveFind" parameterType="com.example.demo.domain.Find">
+    <insert id="saveFind" parameterType="com.example.demo.domain.Find" useGeneratedKeys="true" keyProperty="findId">
         insert
         into find(findId, userId, title, content, image, place, time, money, registerAt, updatedAt)
         values(#{findId}, #{userId}, #{title}, #{content}, #{image}, #{place}, #{time}, #{money}, #{registerAt}, #{updatedAt})
     </insert>
 
-    <update id="updateFind">
+    <update id="updateFind" parameterType="com.example.demo.dto.FindDto">
         update find
         set
         title=#{findDto.title},
         content=#{findDto.content},
         image=#{findDto.image},
-        updatedAt=#{findDto.updatedAt},
-        userId=#{findDto.userId},
         time=#{findDto.time},
         place=#{findDto.place},
         money=#{findDto.money}
-
         where findId=#{findId}
+
+        <selectKey keyColumn="registerAt" keyProperty="registerAt" resultType="java.sql.Timestamp" order="AFTER">
+            select registerAt
+            from find
+            where findId = #{findId}
+        </selectKey>
     </update>
+
+    <select id="getFindDto" resultType="FindDto">
+        select findId,userId,title,content, image, time, money, registerAt,updatedAt
+        from find
+        where findId=#{findId}
+    </select>
 
     <delete id="deleteFind">
         delete from find where findId=#{findId}
     </delete>
+
+    <select id="getList" resultType="com.example.demo.vo.FindVO">
+        select *
+        from find inner join user on find.userId = user.id
+    </select>
+
 
 </mapper>
