@@ -43,7 +43,7 @@ public class LoginSuccessHandler_j implements AuthenticationSuccessHandler {
         claim.put("id", ((AuthUserVo_j) authentication.getPrincipal()).getId());
         claim.put("email", authentication.getName());
         claim.put("nickname", ((AuthUserVo_j) authentication.getPrincipal()).getNickname());
-        String accessToken = jwtUtil.generateToken(claim, 30);
+        String accessToken = jwtUtil.generateToken(claim, 365);
 //        String refreshToken = jwtUtil.generateToken(claim, 30);
 
         Gson gson = new Gson();

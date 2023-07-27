@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,19 +51,23 @@ public class DailyPostController {
 
 
     @GetMapping("/noauth/dailyPost/{dailyPostId}")
-    public ResponseEntity<DetailDailyPostDto> findById(@PathVariable int dailyPostId){
+    public ResponseEntity<DetailDailyPostDto> findById(@PathVariable int dailyPostId) {
         DetailDailyPostDto detail= dailyPostService.findById(dailyPostId);
             return new ResponseEntity <> (detail,HttpStatus.OK);
     }
 
     @DeleteMapping("/api/dailyPost/{dailyPostId}")
-    public int deleteDailyPost(@PathVariable int dailyPostId){
+    public ResponseEntity<?> deleteDailyPost(@PathVariable int dailyPostId) {
+        Map<String, Object> map = new HashMap<>();
 
         int t = dailyPostService.deleteDailyPost(dailyPostId);
-        return t;
+        map.put("dailyPostId", dailyPostId);
+        if (t > 0) {
+            map.put("message", "게시물이 정상적으로 삭제되었습니다.");
+            return ResponseEntity.ok(map);
+        } else {
+            map.put("message", "게시물 삭제 중 오류 발생. 게시물이 이미 삭제되었을 수 있습니다.");
+            return ResponseEntity.badRequest().body(map);
+        }
     }
-
-
-
-
 }

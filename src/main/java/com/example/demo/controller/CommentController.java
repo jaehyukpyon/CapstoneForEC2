@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,10 +51,17 @@ public class CommentController {
     }
 
     @DeleteMapping("/api/comment/{commentId}")
-    public int deleteDailyPost(@PathVariable int commentId){
+    public ResponseEntity<?> deleteDailyPost(@PathVariable int commentId){
+        Map<String, Object> map = new HashMap<>();
+
         int t = commentService.deleteComment(commentId);
-        return t;
+        map.put("commentId", commentId);
+        if (t > 0) {
+            map.put("message", "댓글이 정상적으로 삭제되었습니다.");
+            return ResponseEntity.ok(map);
+        } else {
+            map.put("message", "댓글 삭제 중 오류 발생. 댓글이 이미 삭제되었을 수 있습니다.");
+            return ResponseEntity.badRequest().body(map);
+        }
     }
-
-
 }

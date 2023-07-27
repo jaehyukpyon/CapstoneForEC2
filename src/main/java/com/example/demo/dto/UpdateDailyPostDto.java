@@ -10,7 +10,7 @@ public class UpdateDailyPostDto {
 
     private int id;
     private int userId;
-    private int commentId;
+    //private int commentId;
     private String title;
     private String content;
     //private int likeNum;
