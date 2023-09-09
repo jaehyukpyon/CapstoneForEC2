@@ -104,7 +104,7 @@ public class SecurityConfiguration_j {
         http.formLogin().disable();
         http.httpBasic().disable();
         http.csrf().disable();
-        http.cors().disable();
+        //http.cors().disable();
 
         http.authorizeRequests().antMatchers(NO_AUTHENTICATION_REQUIRED_URIS).permitAll();
         http.authorizeRequests().anyRequest().authenticated();

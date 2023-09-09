@@ -27,7 +27,7 @@ public class SchedulerConfig_j {
         trigger.setJobDetail(jobDetail);
         // trigger.setRepeatInterval(1_800_000); // Run every 30 minute
         // trigger.setRepeatInterval(3_600_000); // Run every 1 hour
-        trigger.setRepeatInterval(21_600_00);
+        trigger.setRepeatInterval(21_600_000);
         trigger.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
         return trigger;
     }

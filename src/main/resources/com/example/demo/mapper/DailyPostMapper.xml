@@ -10,8 +10,8 @@
     <insert id="saveDailyPost" useGeneratedKeys="true" keyProperty="dailyPost.id">
         insert
         into
-        DailyPost (user_id, title, content, register_at, updated_at)
-        values (#{dailyPost.userId}, #{dailyPost.title}, #{dailyPost.content}, #{dailyPost.registerAt}, #{dailyPost.updatedAt})
+        DailyPost (user_id, title, content, register_at, updated_at, photourl)
+        values (#{dailyPost.userId}, #{dailyPost.title}, #{dailyPost.content}, #{dailyPost.registerAt}, #{dailyPost.updatedAt}, #{dailyPost.photourl})
     </insert>
 
     <update id="updateDailyPost">
