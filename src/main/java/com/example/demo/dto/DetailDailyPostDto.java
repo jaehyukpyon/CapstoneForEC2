@@ -14,6 +14,7 @@ public class DetailDailyPostDto {
     private String content;
     private int likecount;
     private int commentcount;
+    private String photourl;
 
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")

@@ -25,7 +25,7 @@
 
 
     <select id="findThumbnail" resultType="ThumbnailDailyPostDto">
-        select dp.id as daily_post_id, user_id, nickname as nick_name, title, content, register_at, updated_at, likecount, commentcount
+        select dp.id as daily_post_id, user_id, nickname as nick_name, title, content, register_at, updated_at, likecount, commentcount, photourl
         from dailypost dp
         left outer join (select count(id) as likecount, daily_post_id
         from likedaily
@@ -41,7 +41,7 @@
 
 
     <select id="findById" resultType="DetailDailyPostDto">
-        select dp.id as daily_post_id, user_id, nickname as nick_name, title, content, register_at, updated_at, likecount, commentcount
+        select dp.id as daily_post_id, user_id, nickname as nick_name, title, content, register_at, updated_at, likecount, commentcount, photourl
         from dailypost dp
         left outer join (select count(id) as likecount, daily_post_id
         from likedaily

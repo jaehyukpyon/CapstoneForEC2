@@ -12,6 +12,7 @@ public class ThumbnailDailyPostDto {
     private int userId;
     private String nickName;
     private String title;
+    private String photourl;
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Timestamp registerAt;
