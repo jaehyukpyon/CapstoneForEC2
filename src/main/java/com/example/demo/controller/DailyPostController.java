@@ -16,6 +16,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -38,12 +40,16 @@ public class DailyPostController {
     private String itemImgLocation;
 
     @PostMapping("/api/dailyPost")
-    public ResponseEntity<DailyPost> saveDailyPost(DailyPost dailyPost, @RequestParam("photo") MultipartFile photo, Authentication authentication) {
+    public ResponseEntity<DailyPost> saveDailyPost(DailyPost dailyPost, @RequestParam("photo") MultipartFile photo, Authentication authentication, HttpServletRequest request) {
+        String path = File.separator + "temp";
+        ServletContext context = request.getSession().getServletContext();
+        String realPath = context.getRealPath(path);
+        System.out.println(realPath);
 
         AuthUserVo_j authUserVo = (AuthUserVo_j) authentication.getPrincipal();
         Integer userId = authUserVo.getId();
         dailyPost.setUserId(userId);
-        String photoName = url + fileSaveService.saveItemImg(photo);
+        String photoName = url + fileSaveService.saveItemImg(photo, realPath);
         dailyPost.setPhotourl(photoName);
         dailyPostService.saveDailyPost(dailyPost);
 
@@ -51,8 +57,14 @@ public class DailyPostController {
     }
 
     @GetMapping("/noauth/downloadphoto")
-    public ResponseEntity<byte[]> downloadfile(@RequestParam("photo") String photourl) {
-        File file = new File(itemImgLocation + "/" + photourl);
+    public ResponseEntity<byte[]> downloadfile(@RequestParam("photo") String photourl, HttpServletRequest request) {
+        String path = File.separator + "temp";
+        ServletContext context = request.getSession().getServletContext();
+        String realPath = context.getRealPath(path);
+        System.out.println(realPath);
+
+//        File file = new File(itemImgLocation + "/" + photourl);
+        File file = new File(realPath + File.separator + photourl);
         ResponseEntity<byte[]> result = null;
 
         try {

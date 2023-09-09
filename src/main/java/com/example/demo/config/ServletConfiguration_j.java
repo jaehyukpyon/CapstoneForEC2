@@ -22,6 +22,8 @@ public class ServletConfiguration_j implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/assets/");
         registry.addResourceHandler("/files/**")
                 .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/noauth/filetest/**")
+                .addResourceLocations("classpath:/static/images/");
     }
 
     @Override
